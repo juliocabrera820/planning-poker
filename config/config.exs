@@ -20,7 +20,8 @@ config :planning_poker, PlanningPokerWeb.Endpoint,
     layout: false
   ],
   pubsub_server: PlanningPoker.PubSub,
-  live_view: [signing_salt: "fu0KY10u"]
+  live_view: [signing_salt: "fu0KY10u"],
+  check_origin: ["https://planning-poker-dqm5.onrender.com"]
 
 # Configures the mailer
 #
