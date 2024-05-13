@@ -13,7 +13,7 @@ config :planning_poker,
 
 # Configures the endpoint
 config :planning_poker, PlanningPokerWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "https://planning-poker-dqm5.onrender.com"],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
     formats: [html: PlanningPokerWeb.ErrorHTML, json: PlanningPokerWeb.ErrorJSON],
