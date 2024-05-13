@@ -13,7 +13,7 @@ config :planning_poker,
 
 # Configures the endpoint
 config :planning_poker, PlanningPokerWeb.Endpoint,
-  url: [host: "https://planning-poker-dqm5.onrender.com"],
+  url: [host: System.get_env("HOST")],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
     formats: [html: PlanningPokerWeb.ErrorHTML, json: PlanningPokerWeb.ErrorJSON],
@@ -21,7 +21,7 @@ config :planning_poker, PlanningPokerWeb.Endpoint,
   ],
   pubsub_server: PlanningPoker.PubSub,
   live_view: [signing_salt: "fu0KY10u"],
-  check_origin: ["https://planning-poker-dqm5.onrender.com"]
+  check_origin: [System.get_env("HOST")]
 
 # Configures the mailer
 #
