@@ -1,0 +1,26 @@
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+  <div class="px-4 py-2">
+    <h1 class="text-xl font-bold">Welcome to the session</h1>
+    <h2 class="text-lg font-bold">Connected users:</h2>
+  </div>
+  <div class="px-4 py-2">
+    <div :for={task <- @tasks}>
+      <%= task.name %>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        phx-click="start-estimation"
+        phx-value-task-id={task.id}
+      >
+        Start estimation
+      </button>
+    </div>
+    <div class="grid grid-cols-5 bg-gray-200 py-6 px-2 rounded-lg text-center">
+      <div :for={estimation <- @estimations}>
+        <p class="text-sm">Task id: <%= estimation.task_id %></p>
+        <span class="text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg px-3">
+          <%= estimation.points %>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
