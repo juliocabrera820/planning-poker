@@ -5,10 +5,12 @@ defmodule PlanningPokerWeb.RoomLive.Index do
 
   @topic "room:planning"
   @estimation_topic "room:estimation"
+  @user_joined_topic "room:user_joined"
 
   @impl true
   def mount(_params, _session, socket) do
     Phoenix.PubSub.subscribe(PlanningPoker.PubSub, @estimation_topic)
+    Phoenix.PubSub.subscribe(PlanningPoker.PubSub, @user_joined_topic)
 
     socket =
       socket
@@ -28,10 +30,19 @@ defmodule PlanningPokerWeb.RoomLive.Index do
   end
 
   @impl true
-  def handle_info({:estimate_task, task_id, points}, socket) do
+  def handle_info({:estimate_task, username, points}, socket) do
     socket =
       socket
-      |> assign(:estimations, [%{task_id: task_id, points: points} | socket.assigns.estimations])
+      |> assign(:estimations, [%{username: username, points: points} | socket.assigns.estimations])
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:user_joined, username}, socket) do
+    socket =
+      socket
+      |> assign(:users, [username | socket.assigns.users])
 
     {:noreply, socket}
   end

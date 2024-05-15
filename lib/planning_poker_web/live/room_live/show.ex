@@ -3,6 +3,8 @@ defmodule PlanningPokerWeb.RoomLive.Show do
 
   @topic "room:planning"
   @estimation_topic "room:estimation"
+  @user_joined_topic "room:user_joined"
+  @points [1, 2, 3, 5, 8, 13, "?"]
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,7 +12,13 @@ defmodule PlanningPokerWeb.RoomLive.Show do
       Phoenix.PubSub.subscribe(PlanningPoker.PubSub, @topic)
     end
 
-    {:ok, assign(socket, :current_task, nil)}
+    socket =
+      socket
+      |> assign(:points, @points)
+      |> assign(:current_task, nil)
+      |> assign(:username, nil)
+
+    {:ok, socket}
   end
 
   @impl true
@@ -23,8 +31,19 @@ defmodule PlanningPokerWeb.RoomLive.Show do
     Phoenix.PubSub.broadcast(
       PlanningPoker.PubSub,
       @estimation_topic,
-      {:estimate_task, socket.assigns.current_task.id, points}
+      {:estimate_task, socket.assigns.username, points}
     )
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("submit-username", %{"username" => username}, socket) do
+    socket =
+      socket
+      |> assign(:username, username)
+
+    Phoenix.PubSub.broadcast(PlanningPoker.PubSub, @user_joined_topic, {:user_joined, username})
 
     {:noreply, socket}
   end
