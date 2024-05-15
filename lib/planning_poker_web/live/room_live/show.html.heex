@@ -1,3 +1,31 @@
+<%= if @username do %>
+  <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden border-gray-300 mb-6">
+    <div class="px-4 py-2">
+      <h1 class="text-xl font-bold">Welcome, <%= @username %></h1>
+    </div>
+  </div>
+<% else %>
+  <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden border-gray-300 mb-6">
+    <div class="px-4 py-2">
+      <h1 class="text-xl font-bold">username</h1>
+      <form phx-submit="submit-username">
+        <input
+          type="text"
+          name="username"
+          class="w-full px-3 py-2 mt-2 border rounded-lg"
+          placeholder="type username"
+        />
+        <button
+          type="submit"
+          class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
+        >
+          Enter
+        </button>
+      </form>
+    </div>
+  </div>
+<% end %>
+
 <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
   <div class="px-4 py-2">
     <h1 class="text-xl font-bold">
