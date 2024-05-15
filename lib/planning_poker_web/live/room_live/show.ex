@@ -3,6 +3,7 @@ defmodule PlanningPokerWeb.RoomLive.Show do
 
   @topic "room:planning"
   @estimation_topic "room:estimation"
+  @points [1, 2, 3, 5, 8, 13, "?"]
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,7 +11,11 @@ defmodule PlanningPokerWeb.RoomLive.Show do
       Phoenix.PubSub.subscribe(PlanningPoker.PubSub, @topic)
     end
 
-    {:ok, assign(socket, :current_task, nil)}
+    socket = socket
+    |> assign(:points, @points)
+    |> assign(:current_task, nil)
+
+    {:ok, socket}
   end
 
   @impl true

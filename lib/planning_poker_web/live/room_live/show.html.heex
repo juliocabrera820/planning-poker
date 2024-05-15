@@ -8,40 +8,14 @@
     <h1 class="text-xl font-bold">Assign points to the task</h1>
   </div>
   <div class="grid grid-cols-5 bg-gray-200 py-6 px-2 rounded-lg text-center">
-    <span
-      phx-click="estimate-task"
-      phx-value-points="1"
-      class="text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg"
-    >
-      1
-    </span>
-    <span
-      phx-click="estimate-task"
-      phx-value-points="2"
-      class="text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg"
-    >
-      2
-    </span>
-    <span
-      phx-click="estimate-task"
-      phx-value-points="3"
-      class="text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg"
-    >
-      3
-    </span>
-    <span
-      phx-click="estimate-task"
-      phx-value-points="4"
-      class="text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg"
-    >
-      4
-    </span>
-    <span
-      phx-click="estimate-task"
-      phx-value-points="5"
-      class="text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg"
-    >
-      5
-    </span>
+    <div :for={point <- @points}>
+      <button
+        phx-click="estimate-task"
+        phx-value-points={point}
+        class="text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg px-4 hover:bg-blue-400"
+      >
+        <%= point %>
+      </button>
+    </div>
   </div>
 </div>
