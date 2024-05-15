@@ -13,14 +13,15 @@ config :planning_poker,
 
 # Configures the endpoint
 config :planning_poker, PlanningPokerWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: System.get_env("HOST")],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
     formats: [html: PlanningPokerWeb.ErrorHTML, json: PlanningPokerWeb.ErrorJSON],
     layout: false
   ],
   pubsub_server: PlanningPoker.PubSub,
-  live_view: [signing_salt: "fu0KY10u"]
+  live_view: [signing_salt: "fu0KY10u"],
+  check_origin: [System.get_env("HOST")]
 
 # Configures the mailer
 #

@@ -17,6 +17,15 @@ defmodule PlanningPokerWeb.Router do
   scope "/", PlanningPokerWeb do
     pipe_through :browser
 
+    live "/tasks", TaskLive.Index, :index
+    live "/tasks/new", TaskLive.Index, :new
+    live "/tasks/:id/edit", TaskLive.Index, :edit
+    live "/tasks/:id", TaskLive.Show, :show
+    live "/tasks/:id/show/edit", TaskLive.Show, :edit
+
+    live "/room", RoomLive.Index, :index
+    live "/room/planning", RoomLive.Show, :show
+
     get "/", PageController, :home
   end
 
