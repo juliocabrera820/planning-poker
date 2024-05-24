@@ -17,7 +17,7 @@ defmodule PlanningPokerWeb.RoomLive.Index do
       |> assign(:tasks, Task.list_tasks())
       |> assign(:users, [])
       |> assign(:current_task, nil)
-      |> assign(:estimations, [])
+      |> assign(:finished_estimation, false)
 
     {:ok, socket}
   end
@@ -31,9 +31,21 @@ defmodule PlanningPokerWeb.RoomLive.Index do
 
   @impl true
   def handle_info({:estimate_task, username, points}, socket) do
+    updated_users =
+      Enum.map(socket.assigns.users, fn user ->
+        if user.username == username do
+          %{user | points: points, voted: true}
+        else
+          user
+        end
+      end)
+
+    finished_estimation = Enum.all?(updated_users, & &1.voted)
+
     socket =
       socket
-      |> assign(:estimations, [%{username: username, points: points} | socket.assigns.estimations])
+      |> assign(:users, updated_users)
+      |> assign(:finished_estimation, finished_estimation)
 
     {:noreply, socket}
   end
@@ -42,7 +54,7 @@ defmodule PlanningPokerWeb.RoomLive.Index do
   def handle_info({:user_joined, username}, socket) do
     socket =
       socket
-      |> assign(:users, [username | socket.assigns.users])
+      |> assign(:users, [%{username: username, points: 0, voted: false} | socket.assigns.users])
 
     {:noreply, socket}
   end

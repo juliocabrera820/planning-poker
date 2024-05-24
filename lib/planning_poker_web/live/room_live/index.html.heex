@@ -1,28 +1,31 @@
-<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden pb-10">
   <div class="px-4 py-2">
-    <h1 class="text-xl font-bold">Welcome to the session</h1>
-    <h2 class="text-lg font-bold">Connected users:</h2>
-    <div :for={user <- @users}>
-      <p class="text-sm"><%= user %></p>
-    </div>
+    <h1 class="text-xl font-bold">Tasks</h1>
   </div>
-  <div class="px-4 py-2 flex flex-col gap-4">
-    <div :for={task <- @tasks}>
+  <div class="px-4 py-2 flex flex-col">
+    <div :for={task <- @tasks} class="flex justify-between mt-4">
       <%= task.name %>
       <button
-        class="bg-blue-500 hover:bg-blue-600 text-white font-bold p-2 rounded"
+        class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold px-3 py-1 rounded hover:scale-110 transition duration-300 ease-in-out transform"
         phx-click="start-estimation"
         phx-value-task-id={task.id}
       >
-        Start estimation
+        Start
       </button>
     </div>
-    <div class="grid grid-cols-5 bg-gray-300 py-6 px-2 rounded-lg text-center border-gray-200">
-      <div :for={estimation <- @estimations}>
-        <p class="text-sm">User: <%= estimation.username %></p>
-        <span class="text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg px-3">
-          <%= estimation.points %>
-        </span>
+    <h2 class="text-lg font-bold mt-2">User points:</h2>
+    <div class="grid grid-cols-5 bg-gray-300 py-6 px-2 rounded-lg text-center border-gray-200 h-[250px] mt-4">
+      <div :for={user <- @users}>
+        <p class="text-sm"><%= user.username %></p>
+        <%= if @finished_estimation do %>
+          <button class="p-2 text-xl mx-1 bg-blue-500 border-2 border-white rounded-lg px-5 hover:bg-blue-300 hover:scale-110 transition duration-300 ease-in-out transform">
+            <%= user.points %>
+          </button>
+        <% else %>
+          <button class="p-2 text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg px-5 hover:bg-blue-500 hover:scale-110 transition duration-300 ease-in-out transform">
+            ?
+          </button>
+        <% end %>
       </div>
     </div>
   </div>
