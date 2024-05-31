@@ -1,0 +1,19 @@
+services:
+  - type: web
+    plan: free
+    name: planning-poker
+    runtime: elixir
+    repo: https://github.com/juliocabrera820/planning-poker.git
+    buildCommand: mix deps.get && mix assets.deploy && mix ecto.migrate
+    startCommand: mix phx.server
+    envVars:
+      - key: MIX_ENV
+        value: prod
+      - key: DATABASE_URL
+        fromDatabase:
+          name: planning-poker-database
+          property: connectionString
+
+databases:
+  - name: planning-poker-database
+    plan: free
