@@ -1,4 +1,4 @@
-<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden pb-10">
+<div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pb-10">
   <div class="px-4 py-2">
     <h1 class="text-xl font-bold">Tasks</h1>
   </div>
@@ -13,18 +13,34 @@
         Start
       </button>
     </div>
-    <h2 class="text-lg font-bold mt-2">User points:</h2>
-    <div class="grid grid-cols-5 bg-gray-300 py-6 px-2 rounded-lg text-center border-gray-200 h-[250px] mt-4">
-      <div :for={user <- @users}>
-        <p class="text-sm"><%= user.username %></p>
-        <%= if @finished_estimation do %>
-          <button class="p-2 text-xl mx-1 bg-blue-500 border-2 border-white rounded-lg px-5 hover:bg-blue-300 hover:scale-110 transition duration-300 ease-in-out transform">
-            <%= user.points %>
-          </button>
-        <% else %>
-          <button class="p-2 text-xl mx-1 bg-blue-300 border-2 border-white rounded-lg px-5 hover:bg-blue-500 hover:scale-110 transition duration-300 ease-in-out transform">
-            ?
-          </button>
+    <div class="flex flex-col items-center justify-center bg-gray-100 p-3 mt-4">
+      <div class="flex space-x-4">
+        <%= for user <- Enum.slice(@users, 0, 2) do %>
+          <%= if @finished_estimation do %>
+            <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+              <%= user.points %>
+            </div>
+          <% else %>
+            <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+              <%= user.username %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
+        Current task
+      </div>
+      <div class="mt-8">
+        <%= for user <- Enum.slice(@users, 2, 4) do %>
+          <%= if @finished_estimation do %>
+            <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+              <%= user.points %>
+            </div>
+          <% else %>
+            <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+              <%= user.username %>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>
