@@ -17,6 +17,7 @@ defmodule PlanningPokerWeb.RoomLive.Show do
       |> assign(:points, @points)
       |> assign(:current_task, nil)
       |> assign(:username, nil)
+      |> assign(:current_index, nil)
 
     {:ok, socket}
   end
@@ -27,13 +28,14 @@ defmodule PlanningPokerWeb.RoomLive.Show do
   end
 
   @impl true
-  def handle_event("estimate-task", %{"points" => points}, socket) do
+  def handle_event("estimate-task", %{"points" => points, "index" => index}, socket) do
     Phoenix.PubSub.broadcast(
       PlanningPoker.PubSub,
       @estimation_topic,
       {:estimate_task, socket.assigns.username, points}
     )
 
+    socket = socket |> assign(:current_index, String.to_integer(index))
     {:noreply, socket}
   end
 
