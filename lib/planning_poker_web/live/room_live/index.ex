@@ -17,7 +17,8 @@ defmodule PlanningPokerWeb.RoomLive.Index do
       |> assign(:tasks, Task.list_tasks())
       |> assign(:users, [])
       |> assign(:current_task, nil)
-      |> assign(:finished_estimation, false)
+      |> assign(:reveal_cards, false)
+      |> assign(:session_state, :waiting_users)
 
     {:ok, socket}
   end
@@ -26,6 +27,12 @@ defmodule PlanningPokerWeb.RoomLive.Index do
   def handle_event("start-estimation", %{"task-id" => task_id}, socket) do
     task = Task.get_task(task_id)
     Phoenix.PubSub.broadcast(PlanningPoker.PubSub, @topic, {:current_task, task})
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("reveal_cards", _unsigned_params, socket) do
+    socket = socket |> assign(:reveal_cards, true)
     {:noreply, socket}
   end
 
@@ -40,12 +47,10 @@ defmodule PlanningPokerWeb.RoomLive.Index do
         end
       end)
 
-    finished_estimation = Enum.all?(updated_users, & &1.voted)
-
     socket =
       socket
       |> assign(:users, updated_users)
-      |> assign(:finished_estimation, finished_estimation)
+      |> assign(:session_state, :can_reveal_cards)
 
     {:noreply, socket}
   end
