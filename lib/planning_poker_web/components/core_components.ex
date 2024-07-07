@@ -597,6 +597,136 @@ defmodule PlanningPokerWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders a card
+
+  ### Examples
+      <.card state="pending" username="john"/>
+      <.card state="voted" username="john"/>
+      <.card state="revealed" points="10"/>
+  """
+  attr :state, :string, required: true
+  attr :points, :string, default: nil
+  attr :username, :string, default: nil
+
+  def card(%{state: "pending"} = assigns) do
+    ~H"""
+    <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+      <%= @username %>
+    </div>
+    """
+  end
+
+  def card(%{state: "voted"} = assigns) do
+    ~H"""
+    <div class="w-16 h-24 rounded-md flex items-center justify-center bg-indigo-500 text-white animate-pulse">
+      <%= @username %>
+    </div>
+    """
+  end
+
+  def card(%{state: "revealed"} = assigns) do
+    ~H"""
+    <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+      <%= @points %>
+    </div>
+    """
+  end
+
+  @doc """
+  Renders a session state component
+
+  ### Examples
+      <.session_state state={:waiting_users} />
+      <.session_state state={:voting} />
+      <.session_state state={:can_reveal_cards} />
+      <.session_state state={:finished} />
+  """
+  attr :state, :atom, required: true
+
+  def session_state(%{state: :waiting_users} = assigns) do
+    ~H"""
+    <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
+      Waiting for users
+    </div>
+    """
+  end
+
+  def session_state(%{state: :voting} = assigns) do
+    ~H"""
+    <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
+      Current task
+    </div>
+    """
+  end
+
+  def session_state(%{state: :can_reveal_cards} = assigns) do
+    ~H"""
+    <button
+      phx-click="reveal_cards"
+      class="text-md bg-blue-300 border-2 rounded-lg p-3 hover:bg-blue-300 hover:scale-110 transition duration-3000 ease-in-out transform text-black mt-4"
+    >
+      Reveal cards
+    </button>
+    """
+  end
+
+  def session_state(%{state: :finished} = assigns) do
+    ~H"""
+    <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
+      Next task
+    </div>
+    """
+  end
+
+  @doc """
+  Renders a deck of cards
+
+  ### Examples
+      <.deck points={[1, 2, 3, 5, 8, 13]} current_index={0} />
+  """
+  attr :points, :list, required: true
+  attr :current_index, :integer, required: true
+
+  def deck(assigns) do
+    ~H"""
+    <div :for={{point, index} <- Enum.with_index(@points)}>
+      <.card_deck point={point} index={index} current_index={@current_index} />
+    </div>
+    """
+  end
+
+  @doc """
+  Renders a card_deck component
+
+  ### Examples
+      <.card_deck point={1} index={0} current_index={0} />
+      <.card_deck point={2} index={1} current_index={0} />
+      <.card_deck point={3} index={2} current_index={0} />
+  """
+  attr :point, :integer, required: true
+  attr :index, :integer, required: true
+  attr :current_index, :integer, required: true
+
+  def card_deck(assigns) do
+    ~H"""
+      <button
+        phx-click="estimate-task"
+        phx-value-points={@point}
+        phx-value-index={@index}
+        class={
+          if @current_index == @index do
+            "py-9 text-xl bg-blue-500 border-2 border-white rounded-lg px-6 m-4 hover:bg-blue-300 hover:scale-110 transition duration-3000 ease-in-out transform text-white translate-y-6 hover:text-black"
+          else
+            "py-9 text-xl bg-blue-300 border-2 border-white rounded-lg px-6 m-4 hover:bg-blue-500 hover:scale-110 transition duration-300 ease-in-out transform hover:text-white"
+          end
+        }
+      >
+        <%= @point %>
+      </button>
+    """
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do
