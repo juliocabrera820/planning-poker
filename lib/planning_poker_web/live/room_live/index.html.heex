@@ -17,19 +17,9 @@
       <div class="flex space-x-4">
         <%= for user <- Enum.slice(@users, 0, 2) do %>
           <%= if @reveal_cards do %>
-            <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
-              <%= user.points %>
-            </div>
+            <.card state="revealed" points={user.points} />
           <% else %>
-            <div class={
-              if user.voted,
-                do:
-                  "w-16 h-24 rounded-md flex items-center justify-center bg-indigo-500 text-white animate-pulse",
-                else:
-                  "w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500"
-            }>
-              <%= user.username %>
-            </div>
+            <.card state={if user.voted, do: "voted", else: "pending"} username={user.username} />
           <% end %>
         <% end %>
       </div>
@@ -57,19 +47,9 @@
       <div class="mt-8">
         <%= for user <- Enum.slice(@users, 2, 4) do %>
           <%= if @reveal_cards do %>
-            <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
-              <%= user.points %>
-            </div>
+            <.card state="revealed" points={user.points} />
           <% else %>
-            <div class={
-              if user.voted,
-                do:
-                  "w-16 h-24 rounded-md flex items-center justify-center bg-indigo-500 text-white animate-pulse",
-                else:
-                  "w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500"
-            }>
-              <%= user.username %>
-            </div>
+            <.card state={if user.voted, do: "voted", else: "pending"} username={user.username} />
           <% end %>
         <% end %>
       </div>

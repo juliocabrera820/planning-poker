@@ -597,6 +597,42 @@ defmodule PlanningPokerWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders a card
+
+  ### Examples
+      <.card state="pending" username="john"/>
+      <.card state="voted" username="john"/>
+      <.card state="revealed" points="10"/>
+  """
+  attr :state, :string, required: true
+  attr :points, :string, default: nil
+  attr :username, :string, default: nil
+
+  def card(%{state: "pending"} = assigns) do
+    ~H"""
+    <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+      <%= @username %>
+    </div>
+    """
+  end
+
+  def card(%{state: "voted"} = assigns) do
+    ~H"""
+    <div class="w-16 h-24 rounded-md flex items-center justify-center bg-indigo-500 text-white animate-pulse">
+      <%= @username %>
+    </div>
+    """
+  end
+
+  def card(%{state: "revealed"} = assigns) do
+    ~H"""
+    <div class="w-16 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+      <%= @points %>
+    </div>
+    """
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do
