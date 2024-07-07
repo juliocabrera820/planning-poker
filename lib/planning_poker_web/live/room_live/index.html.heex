@@ -23,27 +23,9 @@
           <% end %>
         <% end %>
       </div>
-      <%= case @session_state do %>
-        <% :waiting_users -> %>
-          <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
-            Waiting for users
-          </div>
-        <% :voting -> %>
-          <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
-            Current task
-          </div>
-        <% :can_reveal_cards -> %>
-          <button
-            phx-click="reveal_cards"
-            class="text-md bg-blue-300 border-2 rounded-lg p-3 hover:bg-blue-300 hover:scale-110 transition duration-3000 ease-in-out transform text-black mt-4"
-          >
-            Reveal cards
-          </button>
-        <% :finished -> %>
-          <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
-            Next task
-          </div>
-      <% end %>
+
+      <.session_state state={@session_state} />
+
       <div class="mt-8">
         <%= for user <- Enum.slice(@users, 2, 4) do %>
           <%= if @reveal_cards do %>

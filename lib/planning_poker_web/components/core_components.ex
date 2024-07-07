@@ -633,6 +633,46 @@ defmodule PlanningPokerWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders a session state component
+  """
+  attr :state, :string, required: true
+
+  def session_state(%{state: :waiting_users} = assigns) do
+    ~H"""
+    <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
+      Waiting for users
+    </div>
+    """
+  end
+
+  def session_state(%{state: :voting} = assigns) do
+    ~H"""
+    <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
+      Current task
+    </div>
+    """
+  end
+
+  def session_state(%{state: :can_reveal_cards} = assigns) do
+    ~H"""
+    <button
+      phx-click="reveal_cards"
+      class="text-md bg-blue-300 border-2 rounded-lg p-3 hover:bg-blue-300 hover:scale-110 transition duration-3000 ease-in-out transform text-black mt-4"
+    >
+      Reveal cards
+    </button>
+    """
+  end
+
+  def session_state(%{state: :finished} = assigns) do
+    ~H"""
+    <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
+      Next task
+    </div>
+    """
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do
