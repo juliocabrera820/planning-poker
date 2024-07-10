@@ -710,20 +710,67 @@ defmodule PlanningPokerWeb.CoreComponents do
 
   def card_deck(assigns) do
     ~H"""
-      <button
-        phx-click="estimate-task"
-        phx-value-points={@point}
-        phx-value-index={@index}
-        class={
-          if @current_index == @index do
-            "py-9 text-xl bg-blue-500 border-2 border-white rounded-lg px-6 m-4 hover:bg-blue-300 hover:scale-110 transition duration-3000 ease-in-out transform text-white translate-y-6 hover:text-black"
-          else
-            "py-9 text-xl bg-blue-300 border-2 border-white rounded-lg px-6 m-4 hover:bg-blue-500 hover:scale-110 transition duration-300 ease-in-out transform hover:text-white"
-          end
-        }
-      >
-        <%= @point %>
+    <button
+      phx-click="estimate-task"
+      phx-value-points={@point}
+      phx-value-index={@index}
+      class={
+        if @current_index == @index do
+          "py-9 text-xl bg-blue-500 border-2 border-white rounded-lg px-6 m-4 hover:bg-blue-300 hover:scale-110 transition duration-3000 ease-in-out transform text-white translate-y-6 hover:text-black"
+        else
+          "py-9 text-xl bg-blue-300 border-2 border-white rounded-lg px-6 m-4 hover:bg-blue-500 hover:scale-110 transition duration-300 ease-in-out transform hover:text-white"
+        end
+      }
+    >
+      <%= @point %>
+    </button>
+    """
+  end
+
+  @doc """
+  Renders a drawer component
+
+  ### Examples
+      <.drawer title="Issues" id="issues">
+        <p>Content</p>
+      </.drawer>
+  """
+  attr :title, :string, required: true
+  slot :inner_block, required: false
+
+  def drawer(assigns) do
+    ~H"""
+    <div class="bg-blue-200">
+      <button phx-hook="OpenDrawer" id="open-drawer" class="p-4 focus:outline-none top-0 right-0">
+        <.icon name="hero-bars-3-bottom-left" />
       </button>
+
+      <div class={"fixed top-0 left-0 w-1/5 h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-30 -translate-x-full"} id="drawer-container">
+        <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 class="text-lg font-semibold"><%= @title %></h2>
+          <button phx-hook="CloseDrawer" id="close-drawer" class="focus:outline-none">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              >
+              </path>
+            </svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <%= render_slot(@inner_block) %>
+        </div>
+      </div>
+    </div>
     """
   end
 

@@ -1,6 +1,8 @@
 defmodule PlanningPokerWeb.RoomLive.Show do
   use PlanningPokerWeb, :live_view
 
+  alias PlanningPoker.Tasks.Task
+
   @topic "room:planning"
   @estimation_topic "room:estimation"
   @user_joined_topic "room:user_joined"
@@ -18,6 +20,7 @@ defmodule PlanningPokerWeb.RoomLive.Show do
       |> assign(:current_task, nil)
       |> assign(:username, nil)
       |> assign(:current_index, nil)
+      |> assign(:tasks, Task.list_tasks())
 
     {:ok, socket}
   end

@@ -1,3 +1,16 @@
+<.drawer title="Issues">
+  <div :for={task <- @tasks} class="flex justify-between mt-4">
+    <%= task.name %>
+    <button
+      class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold px-3 py-1 rounded hover:scale-110 transition duration-300 ease-in-out transform"
+      phx-click="start-estimation"
+      phx-value-task-id={task.id}
+    >
+      Vote
+    </button>
+  </div>
+</.drawer>
+
 <div class="max-w-md mx-auto">
   <div class="bg-white shadow-lg rounded-lg overflow-hidden border-gray-300 mb-6">
     <div class="px-4 py-2">
@@ -6,14 +19,14 @@
   </div>
 </div>
 
-<.modal :if={@username == nil} id="task-modal" show>
+<%!-- <.modal :if={@username == nil} id="task-modal" show>
   <.live_component
     module={PlanningPokerWeb.RoomLive.FormComponent}
     username={@username}
     id="join-session"
     title="Join session"
   />
-</.modal>
+</.modal> --%>
 
 <div class="bg-white shadow-lg">
   <div class="px-4 py-2">
