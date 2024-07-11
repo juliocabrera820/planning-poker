@@ -1,40 +1,18 @@
 <div class="mx-auto bg-white shadow-lg rounded-lg overflow-hidden pb-10">
-  <div class="px-4 py-2">
-    <h1 class="text-xl font-bold">Tasks</h1>
-  </div>
-  <div class="px-4 py-2 flex flex-col">
-    <div :for={task <- @tasks} class="flex justify-between mt-4">
-      <%= task.name %>
-      <button
-        class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold px-3 py-1 rounded hover:scale-110 transition duration-300 ease-in-out transform"
-        phx-click="start-estimation"
-        phx-value-task-id={task.id}
-      >
-        Start
-      </button>
-    </div>
-    <div class="flex flex-col items-center justify-center bg-gray-100 p-3 mt-4">
-      <div class="flex space-x-4">
-        <%= for user <- Enum.slice(@users, 0, 2) do %>
-          <%= if @reveal_cards do %>
-            <.card state="revealed" points={user.points} />
-          <% else %>
-            <.card state={if user.voted, do: "voted", else: "pending"} username={user.username} />
-          <% end %>
-        <% end %>
-      </div>
+  <.modal :if={@session == nil} id="session-modal" show>
+    <.live_component
+      module={PlanningPokerWeb.RoomLive.SessionComponent}
+      session={@session}
+      id="create-session"
+      title="Create session"
+    />
+  </.modal>
+</div>
 
-      <.session_state state={@session_state} />
-
-      <div class="mt-8">
-        <%= for user <- Enum.slice(@users, 2, 4) do %>
-          <%= if @reveal_cards do %>
-            <.card state="revealed" points={user.points} />
-          <% else %>
-            <.card state={if user.voted, do: "voted", else: "pending"} username={user.username} />
-          <% end %>
-        <% end %>
-      </div>
+<div class="max-w-md mx-auto">
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden border-gray-300 mb-6">
+    <div class="px-4 py-2">
+      <h1 class="text-xl font-bold">Session <%= @session %></h1>
     </div>
   </div>
 </div>

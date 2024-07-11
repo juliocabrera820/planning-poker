@@ -1,4 +1,4 @@
-defmodule PlanningPokerWeb.RoomLive.FormComponent do
+defmodule PlanningPokerWeb.RoomLive.SessionComponent do
   use PlanningPokerWeb, :live_component
 
   @impl true
@@ -6,19 +6,19 @@ defmodule PlanningPokerWeb.RoomLive.FormComponent do
     ~H"""
     <div class="bg-white shadow-lg rounded-lg overflow-hidden border-gray-300 mb-6">
       <div class="px-4 py-2">
-        <h1 class="text-xl font-bold">Username</h1>
-        <form phx-submit="submit-username">
+        <h1 class="text-xl font-bold">Session</h1>
+        <form phx-submit="submit-session">
           <input
             type="text"
-            name="username"
+            name="session"
             class="w-full px-3 py-2 mt-2 border rounded-lg"
-            placeholder="type username"
+            placeholder="Type session"
           />
           <button
             type="submit"
             class="mt-4 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded w-full"
           >
-            Enter
+            Create
           </button>
         </form>
       </div>
