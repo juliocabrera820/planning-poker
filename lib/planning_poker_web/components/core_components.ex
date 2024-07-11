@@ -655,7 +655,7 @@ defmodule PlanningPokerWeb.CoreComponents do
   def session_state(%{state: :voting} = assigns) do
     ~H"""
     <div class="mt-8 bg-blue-200 text-center p-4 rounded-md">
-      Current task
+      Voting
     </div>
     """
   end
@@ -745,7 +745,10 @@ defmodule PlanningPokerWeb.CoreComponents do
         <.icon name="hero-bars-3-bottom-left" />
       </button>
 
-      <div class={"fixed top-0 left-0 w-1/5 h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-30 -translate-x-full"} id="drawer-container">
+      <div
+        class="fixed top-0 left-0 w-1/5 h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-30 -translate-x-full"
+        id="drawer-container"
+      >
         <div class="p-4 border-b border-gray-200 flex justify-between items-center">
           <h2 class="text-lg font-semibold"><%= @title %></h2>
           <button phx-hook="CloseDrawer" id="close-drawer" class="focus:outline-none">
@@ -770,6 +773,45 @@ defmodule PlanningPokerWeb.CoreComponents do
           <%= render_slot(@inner_block) %>
         </div>
       </div>
+    </div>
+    """
+  end
+
+  @doc """
+  Renders a voting room component
+  """
+  attr :users, :list, required: true
+  attr :reveal_cards, :boolean, required: false, default: false
+  attr :session_state, :atom, required: true
+
+  def voting_room(%{users: []} = assigns) do
+    ~H"""
+    <.session_state state={@session_state} />
+    """
+  end
+
+  def voting_room(assigns) do
+    ~H"""
+    <div class="flex space-x-4">
+      <%= for user <- Enum.slice(@users, 0, 2) do %>
+        <%= if @reveal_cards do %>
+          <.card state="revealed" points={user.points} />
+        <% else %>
+          <.card state={if user.voted, do: "voted", else: "pending"} username={user.username} />
+        <% end %>
+      <% end %>
+    </div>
+
+    <.session_state state={@session_state} />
+
+    <div class="mt-8">
+      <%= for user <- Enum.slice(@users, 2, 4) do %>
+        <%= if @reveal_cards do %>
+          <.card state="revealed" points={user.points} />
+        <% else %>
+          <.card state={if user.voted, do: "voted", else: "pending"} username={user.username} />
+        <% end %>
+      <% end %>
     </div>
     """
   end
