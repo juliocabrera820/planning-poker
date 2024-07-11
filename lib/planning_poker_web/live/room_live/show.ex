@@ -39,6 +39,9 @@ defmodule PlanningPokerWeb.RoomLive.Show do
       socket
       |> assign(:current_task, RoomServer.get_current_task())
       |> assign(:session_state, RoomServer.get_session_state())
+      |> assign(:reveal_cards, RoomServer.get_cards_state())
+      |> assign(:users, RoomServer.get_users())
+      |> assign(:current_index, nil)
 
     {:noreply, socket}
   end
@@ -82,8 +85,9 @@ defmodule PlanningPokerWeb.RoomLive.Show do
   @impl true
   def handle_event("start-estimation", %{"task-id" => task_id}, socket) do
     task = Task.get_task(task_id)
-    RoomServer.set_current_task(task)
-    RoomServer.set_session_state(:voting)
+    RoomServer.start_estimation(task, :voting)
+    RoomServer.reset_cards_state()
+
     Phoenix.PubSub.broadcast(PlanningPoker.PubSub, @topic, {:current_task})
     {:noreply, socket}
   end

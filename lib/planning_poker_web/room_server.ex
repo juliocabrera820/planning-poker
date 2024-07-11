@@ -45,6 +45,29 @@ defmodule PlanningPokerWeb.RoomServer do
     GenServer.call(__MODULE__, {:get_session_state})
   end
 
+  def start_estimation(task, session_state) do
+    GenServer.call(__MODULE__, {:start_estimation, task, session_state})
+  end
+
+  def reset_cards_state do
+    GenServer.call(__MODULE__, {:reset_cards_state})
+  end
+
+  def handle_call({:reset_cards_state}, _from, state) do
+    updated_users =
+      Enum.map(state.users, fn user ->
+        %{user | points: 0, voted: false}
+      end)
+
+    updated_state = %{state | users: updated_users}
+    {:reply, updated_state, updated_state}
+  end
+
+  def handle_call({:start_estimation, task, session_state}, _from, state) do
+    updated_state = %{state | session_state: session_state, current_task: task, reveal_cards: false}
+    {:reply, updated_state, updated_state}
+  end
+
   def handle_call({:set_session_state, session_state}, _from, state) do
     updated_state = %{state | session_state: session_state}
     {:reply, updated_state, updated_state}
