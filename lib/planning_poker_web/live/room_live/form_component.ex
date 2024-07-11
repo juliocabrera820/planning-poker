@@ -4,7 +4,7 @@ defmodule PlanningPokerWeb.RoomLive.FormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden border-gray-300 mb-6">
+    <div class="rounded-lg overflow-hidden border-gray-300 mb-6">
       <div class="px-4 py-2">
         <h1 class="text-xl font-bold">Username</h1>
         <form phx-submit="submit-username">

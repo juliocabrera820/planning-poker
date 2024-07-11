@@ -804,7 +804,7 @@ defmodule PlanningPokerWeb.CoreComponents do
 
     <.session_state state={@session_state} />
 
-    <div class="mt-8">
+    <div class="mt-8 flex space-x-4">
       <%= for user <- Enum.slice(@users, 2, 4) do %>
         <%= if @reveal_cards do %>
           <.card state="revealed" points={user.points} />
