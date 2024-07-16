@@ -24,7 +24,7 @@ defmodule PlanningPokerWeb.Router do
     live "/tasks/:id/show/edit", TaskLive.Show, :edit
 
     live "/room", RoomLive.Index, :index
-    live "/room/planning", RoomLive.Show, :show
+    live "/room/planning/:slug", RoomLive.Show, :show
 
     get "/", PageController, :home
   end

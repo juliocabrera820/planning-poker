@@ -1,65 +1,25 @@
 defmodule PlanningPokerWeb.RoomLive.Index do
   use PlanningPokerWeb, :live_view
 
-  alias PlanningPoker.Tasks.Task
-
-  @topic "room:planning"
-  @estimation_topic "room:estimation"
-  @user_joined_topic "room:user_joined"
-
   @impl true
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(PlanningPoker.PubSub, @estimation_topic)
-    Phoenix.PubSub.subscribe(PlanningPoker.PubSub, @user_joined_topic)
-
     socket =
       socket
-      |> assign(:tasks, Task.list_tasks())
-      |> assign(:users, [])
-      |> assign(:current_task, nil)
-      |> assign(:reveal_cards, false)
-      |> assign(:session_state, :waiting_users)
+      |> assign(:session, nil)
+      |> assign(:url, nil)
 
     {:ok, socket}
   end
 
   @impl true
-  def handle_event("start-estimation", %{"task-id" => task_id}, socket) do
-    task = Task.get_task(task_id)
-    Phoenix.PubSub.broadcast(PlanningPoker.PubSub, @topic, {:current_task, task})
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("reveal_cards", _unsigned_params, socket) do
-    socket = socket |> assign(:reveal_cards, true)
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_info({:estimate_task, username, points}, socket) do
-    updated_users =
-      Enum.map(socket.assigns.users, fn user ->
-        if user.username == username do
-          %{user | points: points, voted: true}
-        else
-          user
-        end
-      end)
+  def handle_event("submit-session", %{"session" => session}, socket) do
+    slug = Slug.slugify(session, lower: true)
+    session_url = url(~p"/room/planning/#{slug}")
 
     socket =
       socket
-      |> assign(:users, updated_users)
-      |> assign(:session_state, :can_reveal_cards)
-
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_info({:user_joined, username}, socket) do
-    socket =
-      socket
-      |> assign(:users, [%{username: username, points: 0, voted: false} | socket.assigns.users])
+      |> assign(:session, session)
+      |> assign(:url, session_url)
 
     {:noreply, socket}
   end

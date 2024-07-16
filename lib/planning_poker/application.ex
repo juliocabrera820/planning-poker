@@ -17,7 +17,8 @@ defmodule PlanningPoker.Application do
       # Start a worker by calling: PlanningPoker.Worker.start_link(arg)
       # {PlanningPoker.Worker, arg},
       # Start to serve requests, typically the last entry
-      PlanningPokerWeb.Endpoint
+      PlanningPokerWeb.Endpoint,
+      PlanningPokerWeb.RoomServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
