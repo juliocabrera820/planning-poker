@@ -54,6 +54,13 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
+config :planning_poker, PlanningPoker.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: :disabled,
+  metrics_server: :disabled
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

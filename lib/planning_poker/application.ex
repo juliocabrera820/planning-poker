@@ -18,7 +18,8 @@ defmodule PlanningPoker.Application do
       # {PlanningPoker.Worker, arg},
       # Start to serve requests, typically the last entry
       PlanningPokerWeb.Endpoint,
-      PlanningPokerWeb.RoomServer
+      PlanningPokerWeb.RoomServer,
+      PlanningPoker.PromEx
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
