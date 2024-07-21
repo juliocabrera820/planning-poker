@@ -77,7 +77,7 @@ defmodule PlanningPoker.PromEx do
   @impl true
   def dashboard_assigns do
     [
-      datasource_id: "test123",
+      datasource_id: "planning_poker_datasource",
       default_selected_interval: "30s"
     ]
   end
