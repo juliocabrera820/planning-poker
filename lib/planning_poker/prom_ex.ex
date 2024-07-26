@@ -55,6 +55,7 @@ defmodule PlanningPoker.PromEx do
   use PromEx, otp_app: :planning_poker
 
   alias PromEx.Plugins
+  alias PlanningPoker.UserPlugin
 
   @impl true
   def plugins do
@@ -70,7 +71,7 @@ defmodule PlanningPoker.PromEx do
       # Plugins.Broadway,
 
       # Add your own PromEx metrics plugins
-      # PlanningPoker.Users.PromExPlugin
+      UserPlugin
     ]
   end
 
