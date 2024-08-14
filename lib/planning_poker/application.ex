@@ -8,6 +8,7 @@ defmodule PlanningPoker.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      PlanningPoker.PromEx,
       PlanningPokerWeb.Telemetry,
       PlanningPoker.Repo,
       {DNSCluster, query: Application.get_env(:planning_poker, :dns_cluster_query) || :ignore},
@@ -18,8 +19,7 @@ defmodule PlanningPoker.Application do
       # {PlanningPoker.Worker, arg},
       # Start to serve requests, typically the last entry
       PlanningPokerWeb.Endpoint,
-      PlanningPokerWeb.RoomServer,
-      PlanningPoker.PromEx
+      PlanningPokerWeb.RoomServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
