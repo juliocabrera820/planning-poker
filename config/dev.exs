@@ -62,6 +62,19 @@ config :planning_poker, PlanningPokerWeb.Endpoint,
     ]
   ]
 
+config :planning_poker, PlanningPoker.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: [
+    host: "http://localhost:3000",
+    # Authenticate via Basic Auth
+    username: "admin",
+    password: "admin",
+    upload_dashboards_on_start: true
+  ],
+  metrics_server: :disabled
+
 # Enable dev routes for dashboard and mailbox
 config :planning_poker, dev_routes: true
 

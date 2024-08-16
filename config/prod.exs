@@ -8,6 +8,13 @@ import Config
 config :planning_poker, PlanningPokerWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :planning_poker, PlanningPoker.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: :disabled,
+  metrics_server: :disabled
+
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: PlanningPoker.Finch
 

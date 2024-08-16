@@ -51,7 +51,9 @@ defmodule PlanningPoker.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
-      {:slugify, "~> 1.3"}
+      {:slugify, "~> 1.3"},
+      {:prom_ex, "~> 1.9.0"},
+      {:logger_file_backend, "~> 0.0.13"}
     ]
   end
 

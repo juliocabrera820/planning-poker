@@ -54,10 +54,30 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
+config :planning_poker, PlanningPoker.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: [
+    host: "http://localhost:3000",
+    # Authenticate via Basic Auth
+    username: "admin",
+    password: "admin",
+    upload_dashboards_on_start: true
+  ],
+  metrics_server: :disabled
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+config :logger,
+  backends: [{LoggerFileBackend, :file_log}]
+
+config :logger, :file_log,
+  path: "/tmp/app-logs/app.log",
+  level: :info
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason

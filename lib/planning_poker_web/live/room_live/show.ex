@@ -3,12 +3,14 @@ defmodule PlanningPokerWeb.RoomLive.Show do
 
   alias PlanningPoker.Tasks.Task
   alias PlanningPokerWeb.RoomServer
+  alias PlanningPoker.UserPlugin
 
   @topic "room:planning"
   @estimation_topic "room:estimation"
   @user_joined_topic "room:user_joined"
   @cards_state_topic "room:cards_state"
   @points [1, 2, 3, 5, 8, 13, "?"]
+
 
   @impl true
   def mount(_params, _session, socket) do
@@ -95,6 +97,8 @@ defmodule PlanningPokerWeb.RoomLive.Show do
   @impl true
   def handle_event("submit-username", %{"username" => username}, socket) do
     RoomServer.add_user(username)
+
+    :telemetry.execute(UserPlugin.submit_username_event_name(), %{count: 1}, %{username: username})
 
     socket =
       socket

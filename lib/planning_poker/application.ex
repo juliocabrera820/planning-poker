@@ -8,6 +8,7 @@ defmodule PlanningPoker.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      PlanningPoker.PromEx,
       PlanningPokerWeb.Telemetry,
       PlanningPoker.Repo,
       {DNSCluster, query: Application.get_env(:planning_poker, :dns_cluster_query) || :ignore},
