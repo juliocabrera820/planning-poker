@@ -72,6 +72,13 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :logger,
+  backends: [{LoggerFileBackend, :file_log}]
+
+config :logger, :file_log,
+  path: "/tmp/app-logs/app.log",
+  level: :info
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
